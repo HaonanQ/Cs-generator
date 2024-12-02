@@ -36,8 +36,7 @@ public class StaticGenerator {
      * @param outputPath
      */
     public static void copyFilesByRecursive(String inputPath, String outputPath) {
-        String projectPath = System.getProperty("user.dir");
-        File inputFile = new File(projectPath,"qhn-generator-demo-projects/acm-template").getAbsoluteFile();
+        File inputFile = new File(inputPath,"").getAbsoluteFile();
         File outputFile = new File(outputPath);
         try {
             copyFileByRecursive(inputFile, outputFile);

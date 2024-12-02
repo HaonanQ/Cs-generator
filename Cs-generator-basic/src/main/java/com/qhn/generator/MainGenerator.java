@@ -28,7 +28,7 @@ public class MainGenerator {
         // 生成静态文件
         StaticGenerator.copyFilesByRecursive(inputPath, outputPath);
         // 生成动态文件
-        String inputDynamicFilePath = projectPath + File.separator +"Cs-generator-basic"+File.separator+ "src/main/resources/templates/MainTemplate.java.ftl";
+        String inputDynamicFilePath = projectPath +File.separator+ "src/main/resources/templates/MainTemplate.java.ftl";
         String outputDynamicFilePath = outputPath + File.separator + "acm-template/src/com/qhn/acm/MainTemplate.java";
         DynamicGenerator.doGenerate(inputDynamicFilePath, outputDynamicFilePath, model);
     }
