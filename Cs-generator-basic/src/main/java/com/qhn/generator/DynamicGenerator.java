@@ -51,12 +51,12 @@ public class DynamicGenerator {
         Template template = configuration.getTemplate(templateName);
 
         // 创建数据模型
-        MainTemplateConfig mainTemplateConfig = new MainTemplateConfig();
-        mainTemplateConfig.setAuthor("qhn");
-        mainTemplateConfig.setLoop(false);
-        mainTemplateConfig.setOutputText("求和结果：");
+//        MainTemplateConfig mainTemplateConfig = new MainTemplateConfig();
+//        mainTemplateConfig.setAuthor("qhn");
+//        mainTemplateConfig.setLoop(false);
+//        mainTemplateConfig.setOutputText("求和结果：");
 
-        // 生成
+        // 生成,这里使用导入的数据模型
         Writer out = new FileWriter(outputPath);
         template.process(model, out);
 

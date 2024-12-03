@@ -33,13 +33,13 @@ public class MainGenerator {
         DynamicGenerator.doGenerate(inputDynamicFilePath, outputDynamicFilePath, model);
     }
 
-    public static void main(String[] args) throws TemplateException, IOException {
-        MainTemplateConfig mainTemplateConfig = new MainTemplateConfig();
-        mainTemplateConfig.setAuthor("qhn");
-        mainTemplateConfig.setLoop(false);
-        mainTemplateConfig.setOutputText("求和结果：");
-        doGenerate(mainTemplateConfig);
-    }
+//    public static void main(String[] args) throws TemplateException, IOException {
+//        MainTemplateConfig mainTemplateConfig = new MainTemplateConfig();
+//        mainTemplateConfig.setAuthor("qhn");
+//        mainTemplateConfig.setLoop(false);
+//        mainTemplateConfig.setOutputText("求和结果：");
+//        doGenerate(mainTemplateConfig);
+//    }
 }
 
 
