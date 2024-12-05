@@ -6,7 +6,7 @@
   "author": "qhn",
   "createTime": "2023-11-22",
   "fileConfig": {
-    "inputRootPath": "/Users/qhn/Code/qhn-generator/qhn-generator-demo-projects/acm-template-pro",
+    "inputRootPath": "F:/Javalearn/Cs-generator/qhn-generator-demo-projects/acm-template-pro",
     "outputRootPath": "generated",
     "type": "dir",
     "files": [
@@ -43,7 +43,7 @@
         "fieldName": "author",
         "type": "String",
         "description": "作者注释",
-        "defaultValue": "yupi",
+        "defaultValue": "qhn",
         "abbr": "a"
       },
       {
