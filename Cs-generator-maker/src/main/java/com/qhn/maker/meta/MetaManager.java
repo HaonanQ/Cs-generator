@@ -20,11 +20,12 @@ public class MetaManager {
         }
         return meta;
     }
-    private static Meta initMeta(){
+    private static Meta initMeta() {
         String metaJson = ResourceUtil.readUtf8Str("meta.json");
-        Meta meta = JSONUtil.toBean(metaJson, Meta.class);
-        Meta.FileConfig fileConfig = meta.getFileConfig();
-        // todo: 校验和默认值设置
-        return meta;
+        Meta newMeta = JSONUtil.toBean(metaJson, Meta.class);
+        // 校验和处理默认值
+        MetaValidator.doValidAndFill(newMeta);
+        return newMeta;
     }
+
 }

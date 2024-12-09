@@ -6,8 +6,9 @@
   "author": "qhn",
   "createTime": "2023-11-22",
   "fileConfig": {
-    "inputRootPath": "F:/Javalearn/Cs-generator/qhn-generator-demo-projects/acm-template-pro",
+    "inputRootPath": ".source/acm-template-pro",
     "outputRootPath": "../acm-able-use/generated",
+    "sourceRootPath": "F:/Javalearn/Cs-generator/qhn-generator-demo-projects/acm-template-pro",
     "type": "dir",
     "files": [
       {
