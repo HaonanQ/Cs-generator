@@ -10,10 +10,7 @@ import cn.hutool.json.JSONUtil;
 import com.qhn.maker.meta.Meta;
 import com.qhn.maker.meta.enums.FileGenerateTypeEnum;
 import com.qhn.maker.meta.enums.FileTypeEnum;
-import com.qhn.maker.template.model.FileFilterConfig;
-import com.qhn.maker.template.model.TemplateMakerConfig;
-import com.qhn.maker.template.model.TemplateMakerFileConfig;
-import com.qhn.maker.template.model.TemplateMakerModelConfig;
+import com.qhn.maker.template.model.*;
 import com.qhn.maker.template.model.enums.FileFilterRangeEnum;
 import com.qhn.maker.template.model.enums.FileFilterRuleEnum;
 
@@ -24,75 +21,75 @@ import java.util.stream.Collectors;
 
 public class TemplateMaker {
 
-    public static void main(String[] args) {
-        Meta meta = new Meta();
-        meta.setName("acm-template-generator");
-        meta.setDescription("ACM 示例模板生成器");
-
-        String projectPath = System.getProperty("user.dir");
-        String originProjectPath = new File(projectPath).getParent() + File.separator + "qhn-generator-demo-projects/springboot-init";
-//        String inputFilePath = "src/main/java/com/yupi/springbootinit";
-        String inputFilePath1 = "src/main/java/com/yupi/springbootinit/common";
-        String inputFilePath2 = "src/main/resources/application.yml";
-
-        // 模型参数配置
-        TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
-
-        // - 模型组配置
-        TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
-        modelGroupConfig.setGroupKey("mysql");
-        modelGroupConfig.setGroupName("数据库配置");
-        templateMakerModelConfig.setModelGroupConfig(modelGroupConfig);
-
-        // - 模型配置
-        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig1 = new TemplateMakerModelConfig.ModelInfoConfig();
-        modelInfoConfig1.setFieldName("url");
-        modelInfoConfig1.setType("String");
-        modelInfoConfig1.setDefaultValue("jdbc:mysql://localhost:3306/my_db");
-        modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3306/my_db");
-
-        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
-        modelInfoConfig2.setFieldName("username");
-        modelInfoConfig2.setType("String");
-        modelInfoConfig2.setDefaultValue("root");
-        modelInfoConfig2.setReplaceText("root");
-
-        List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
-        templateMakerModelConfig.setModels(modelInfoConfigList);
-
-        // 替换变量（首次）
-//        String searchStr = "Sum: ";
-        // 替换变量（第二次）
-        String searchStr = "BaseResponse";
-
-        // 文件过滤
-        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
-        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
-        fileInfoConfig1.setPath(inputFilePath1);
-        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
-        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
-                .range(FileFilterRangeEnum.FILE_NAME.getValue())
-                .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("Base")
-                .build();
-        fileFilterConfigList.add(fileFilterConfig);
-        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
-
-        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
-        fileInfoConfig2.setPath(inputFilePath2);
-        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
-
-        // 分组配置
-        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
-        fileGroupConfig.setCondition("outputText");
-        fileGroupConfig.setGroupKey("test");
-        fileGroupConfig.setGroupName("测试分组");
-        templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
-
-        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1870676898938982400L);
-        System.out.println(id);
-
-    }
+//    public static void main(String[] args) {
+//        Meta meta = new Meta();
+//        meta.setName("acm-template-generator");
+//        meta.setDescription("ACM 示例模板生成器");
+//
+//        String projectPath = System.getProperty("user.dir");
+//        String originProjectPath = new File(projectPath).getParent() + File.separator + "qhn-generator-demo-projects/springboot-init";
+////        String inputFilePath = "src/main/java/com/yupi/springbootinit";
+//        String inputFilePath1 = "src/main/java/com/yupi/springbootinit/common";
+//        String inputFilePath2 = "src/main/resources/application.yml";
+//
+//        // 模型参数配置
+//        TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
+//
+//        // - 模型组配置
+//        TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
+//        modelGroupConfig.setGroupKey("mysql");
+//        modelGroupConfig.setGroupName("数据库配置");
+//        templateMakerModelConfig.setModelGroupConfig(modelGroupConfig);
+//
+//        // - 模型配置
+//        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig1 = new TemplateMakerModelConfig.ModelInfoConfig();
+//        modelInfoConfig1.setFieldName("url");
+//        modelInfoConfig1.setType("String");
+//        modelInfoConfig1.setDefaultValue("jdbc:mysql://localhost:3306/my_db");
+//        modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3306/my_db");
+//
+//        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
+//        modelInfoConfig2.setFieldName("username");
+//        modelInfoConfig2.setType("String");
+//        modelInfoConfig2.setDefaultValue("root");
+//        modelInfoConfig2.setReplaceText("root");
+//
+//        List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
+//        templateMakerModelConfig.setModels(modelInfoConfigList);
+//
+//        // 替换变量（首次）
+////        String searchStr = "Sum: ";
+//        // 替换变量（第二次）
+//        String searchStr = "BaseResponse";
+//
+//        // 文件过滤
+//        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
+//        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
+//        fileInfoConfig1.setPath(inputFilePath1);
+//        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
+//        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
+//                .range(FileFilterRangeEnum.FILE_NAME.getValue())
+//                .rule(FileFilterRuleEnum.CONTAINS.getValue())
+//                .value("Base")
+//                .build();
+//        fileFilterConfigList.add(fileFilterConfig);
+//        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
+//
+//        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
+//        fileInfoConfig2.setPath(inputFilePath2);
+//        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
+//
+//        // 分组配置
+//        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
+//        fileGroupConfig.setCondition("outputText");
+//        fileGroupConfig.setGroupKey("test");
+//        fileGroupConfig.setGroupName("测试分组");
+//        templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
+//
+//        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1870676898938982400L);
+//        System.out.println(id);
+//
+//    }
 
     /**
      * 制作模板
@@ -105,9 +102,10 @@ public class TemplateMaker {
         String originProjectPath = templateMakerConfig.getOriginProjectPath();
         TemplateMakerFileConfig templateMakerFileConfig = templateMakerConfig.getFileConfig();
         TemplateMakerModelConfig templateMakerModelConfig = templateMakerConfig.getModelConfig();
+        TemplateMakerOutputConfig templateMakerOutputConfig = templateMakerConfig.getOutputConfig();
         Long id = templateMakerConfig.getId();
 
-        return makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, id);
+        return makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig,templateMakerOutputConfig, id);
     }
 
 
@@ -125,6 +123,7 @@ public class TemplateMaker {
                                     String originProjectPath,
                                     TemplateMakerFileConfig templateMakerFileConfig,
                                     TemplateMakerModelConfig templateMakerModelConfig,
+                                    TemplateMakerOutputConfig templateMakerOutputConfig,
                                     Long id) {
         // 没有 id 则生成
         if (id == null) {
@@ -192,9 +191,16 @@ public class TemplateMaker {
             modelConfig.setModels(modelInfoList);
             modelInfoList.addAll(newModelInfoList);
         }
+        // 2. 额外的输出配置
+        if(templateMakerOutputConfig!=null){
+            // 文件外层和分组去重
+            if(templateMakerOutputConfig.isRemoveGroupFilesFromRoot()){
+                List<Meta.FileConfig.FileInfo> fileInfoList = newMeta.getFileConfig().getFiles();
+                newMeta.getFileConfig().setFiles(TemplateMakerUtils.removeGroupFilesFromRoot(fileInfoList));
+            }
+        }
 
-
-        // 2. 输出元信息文件
+        // 3. 输出元信息文件
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
         return id;
     }
@@ -299,7 +305,8 @@ public class TemplateMaker {
      */
     private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig,
                                                              String sourceRootPath,
-                                                             File inputFile) {
+                                                             File inputFile,
+                                                             TemplateMakerFileConfig.FileInfoConfig fileInfoConfig) {
         // 要挖坑的文件绝对路径（用于制作模板）
         // 注意 win 系统需要对路径进行转义
         String fileInputAbsolutePath = inputFile.getAbsolutePath().replaceAll("\\\\", "/");
@@ -342,6 +349,7 @@ public class TemplateMaker {
         Meta.FileConfig.FileInfo fileInfo = new Meta.FileConfig.FileInfo();
         fileInfo.setInputPath(fileOutputPath);
         fileInfo.setOutputPath(fileInputPath);
+        fileInfo.setCondition(fileInfoConfig.getCondition());
         fileInfo.setType(FileTypeEnum.FILE.getValue());
         fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
 
@@ -390,7 +398,7 @@ public class TemplateMaker {
                     .filter(file -> !file.getAbsolutePath().endsWith(".ftl"))
                     .collect(Collectors.toList());
             for (File file : fileList) {
-                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
+                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file, fileInfoConfig);
                 newFileInfoList.add(fileInfo);
             }
         }
@@ -440,14 +448,8 @@ public class TemplateMaker {
         // - 如果是模型组
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = templateMakerModelConfig.getModelGroupConfig();
         if (modelGroupConfig != null) {
-            String condition = modelGroupConfig.getCondition();
-            String groupKey = modelGroupConfig.getGroupKey();
-            String groupName = modelGroupConfig.getGroupName();
             Meta.ModelConfig.ModelInfo groupModelInfo = new Meta.ModelConfig.ModelInfo();
-            groupModelInfo.setGroupKey(groupKey);
-            groupModelInfo.setGroupName(groupName);
-            groupModelInfo.setCondition(condition);
-
+            BeanUtil.copyProperties(modelGroupConfig, groupModelInfo);
             // 模型全放到一个分组内
             groupModelInfo.setModels(inputModelInfoList);
             newModelInfoList.add(groupModelInfo);
