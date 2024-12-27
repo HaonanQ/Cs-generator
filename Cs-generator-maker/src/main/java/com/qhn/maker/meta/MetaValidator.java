@@ -78,7 +78,7 @@ public class MetaValidator {
         }
         // outputRootPath：默认为当前路径下的 generated
         String outputRootPath = fileConfig.getOutputRootPath();
-        String defaultOutputRootPath = "../acm-able-use/generated";
+        String defaultOutputRootPath = "../../Ableused";
         if (StrUtil.isEmpty(outputRootPath)) {
             fileConfig.setOutputRootPath(defaultOutputRootPath);
         }

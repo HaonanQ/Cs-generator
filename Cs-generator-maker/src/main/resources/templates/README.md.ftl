@@ -27,7 +27,6 @@ generator generate -a -o -l
 
         默认值：${modelInfo.defaultValue?c}
 
-        缩写： -${modelInfo.abbr}
 
         </#list>
     <#else>
@@ -39,7 +38,6 @@ generator generate -a -o -l
 
         默认值：${modelInfo.defaultValue?c}
 
-        缩写： -${modelInfo.abbr}
     </#if>
 
 </#list>
