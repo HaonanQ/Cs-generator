@@ -37,7 +37,6 @@ import static com.qhn.web.service.impl.UserServiceImpl.SALT;
 @RestController
 @RequestMapping("/user")
 @Slf4j
-@Api(tags = "用户接口")
 public class UserController {
 
     @Resource
@@ -53,7 +52,6 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    @ApiOperation(value = "用户注册", notes = "用户注册接口")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
         if (userRegisterRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -76,7 +74,6 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    @ApiOperation(value = "用户登录", notes = "用户登录接口")
     public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
         if (userLoginRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);

@@ -38,7 +38,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/generator")
 @Slf4j
-@Api(tags = "代码生成器")
 public class GeneratorController {
 
     @Resource
