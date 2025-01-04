@@ -2,7 +2,7 @@
 .idea
 .temp
 Cs-generator.iml
-
+application-local.yml
 ### Java template
 # Compiled class file
 *.class

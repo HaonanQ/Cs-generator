@@ -3,6 +3,7 @@ package com.qhn.maker.generator.main;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ZipUtil;
 import cn.hutool.extra.template.TemplateException;
 import com.qhn.maker.generator.JarGenerator;
 import com.qhn.maker.generator.ScriptGenerator;
@@ -33,7 +34,7 @@ public abstract class GenerateTemplate {
         //封装脚本
         String shellOutputFilePath = getShellOutputFilePath(outputPath, jarPath);
         // 生成精简版的程序（产物包）
-        buildDist(outputPath, jarPath, shellOutputFilePath, sourceCopyDestPath);
+        buildDist(outputPath,sourceCopyDestPath,jarPath, shellOutputFilePath);
     }
 
     protected void codeGenerate(Meta meta, String outputPath) throws IOException, freemarker.template.TemplateException {
@@ -101,20 +102,29 @@ public abstract class GenerateTemplate {
         DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
     }
 
-    protected void buildDist( String outputPath, String jarPath, String shellOutputFilePath, String sourceCopyDestPath) {
+    /**
+     * 生成精简版程序
+     *
+     * @param outputPath
+     * @param sourceCopyDestPath
+     * @param jarPath
+     * @param shellOutputFilePath
+     * @return 产物包路径
+     */
+    protected String buildDist(String outputPath, String sourceCopyDestPath, String jarPath, String shellOutputFilePath) {
         String distOutputPath = outputPath + "-dist";
+        // 拷贝 jar 包
         String targetAbsolutePath = distOutputPath + File.separator + "target";
         FileUtil.mkdir(targetAbsolutePath);
         String jarAbsolutePath = outputPath + File.separator + jarPath;
         FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
-        // - 拷贝脚本文件
+        // 拷贝脚本文件
         FileUtil.copy(shellOutputFilePath, distOutputPath, true);
-        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
-        // - 拷贝源模板文件
+        // 拷贝源模板文件
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
-        // - 拷贝 README.md 文件
-        FileUtil.copy(outputPath + File.separator + "README.md", distOutputPath, true);
+        return distOutputPath;
     }
+
 
     protected String getShellOutputFilePath(String outputPath, String jarPath) throws IOException {
         // 封装脚本
@@ -137,5 +147,17 @@ public abstract class GenerateTemplate {
         FileUtil.copy(sourceRootPath, sourceCopyDestPath, false);
         return sourceCopyDestPath;
     }
+    /**
+     * 制作压缩包
+     *
+     * @param outputPath
+     * @return 压缩包路径
+     */
+    protected String buildZip(String outputPath) {
+        String zipPath = outputPath + ".zip";
+        ZipUtil.zip(outputPath, zipPath);
+        return zipPath;
+    }
+
 }
 
