@@ -1,6 +1,6 @@
 {
     "name": "springboot-init",
-    "description": "springboot示例模板生成器",
+    "description": "SpringBoot示例模板生成器",
     "fileConfig": {
         "sourceRootPath": "F:/Javalearn/Cs-generator/Cs-generator-maker/.temp/1/springboot-init",
         "files": [

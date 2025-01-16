@@ -15,32 +15,60 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class GenerateTemplate {
-
     public void doGenerate() throws TemplateException, IOException, InterruptedException, freemarker.template.TemplateException {
         Meta meta = MetaManager.getMetaObject();
-        System.out.println(meta);
-        // 输出根路径
         String projectPath = System.getProperty("user.dir");
         String outputPath = projectPath + File.separator + "generated" + File.separator + meta.getName();
+        doGenerate(meta,outputPath);
+    }
+
+//    public void doGenerate() throws TemplateException, IOException, InterruptedException, freemarker.template.TemplateException {
+//        Meta meta = MetaManager.getMetaObject();
+//        System.out.println(meta);
+//        // 输出根路径
+//        String projectPath = System.getProperty("user.dir");
+//        String outputPath = projectPath + File.separator + "generated" + File.separator + meta.getName();
+//        if (!FileUtil.exist(outputPath)) {
+//            FileUtil.mkdir(outputPath);
+//        }
+//        // 复制原始文件
+//        String sourceCopyDestPath = getSourceCopyDestPath(meta, outputPath);
+//        // 生成代码
+//        codeGenerate(meta, outputPath);
+//        // 构建 jar 包
+//        String jarPath = getJarPath(outputPath, meta);
+//        //封装脚本
+//        String shellOutputFilePath = getShellOutputFilePath(outputPath, jarPath);
+//        // 生成精简版的程序（产物包）
+//        buildDist(outputPath,sourceCopyDestPath,jarPath, shellOutputFilePath);
+//    }
+
+    public void doGenerate(Meta meta, String outputPath) throws TemplateException, IOException, InterruptedException, freemarker.template.TemplateException {
         if (!FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
-        // 复制原始文件
+
+        // 1、复制原始文件
         String sourceCopyDestPath = getSourceCopyDestPath(meta, outputPath);
-        // 生成代码
+
+        // 2、代码生成
         codeGenerate(meta, outputPath);
-        // 构建 jar 包
-        String jarPath = getJarPath(outputPath, meta);
-        //封装脚本
+
+        // 3、构建 jar 包
+        String jarPath = getJarPath(outputPath,meta);
+
+        // 4、封装脚本
         String shellOutputFilePath = getShellOutputFilePath(outputPath, jarPath);
-        // 生成精简版的程序（产物包）
-        buildDist(outputPath,sourceCopyDestPath,jarPath, shellOutputFilePath);
+
+        // 5、生成精简版的程序（产物包）
+        buildDist(outputPath, sourceCopyDestPath, jarPath, shellOutputFilePath);
     }
+
 
     protected void codeGenerate(Meta meta, String outputPath) throws IOException, freemarker.template.TemplateException {
         // 读取 resources 目录
         ClassPathResource classPathResource = new ClassPathResource("");
-        String inputResourcePath = classPathResource.getAbsolutePath();
+        String inputResourcePath = "";
 
         // Java 包基础路径
         String outputBasePackage = meta.getBasePackage();
@@ -67,6 +95,10 @@ public abstract class GenerateTemplate {
         // cli.command.ListCommand
         inputFilePath = inputResourcePath + File.separator + "templates/java/cli/command/ListCommand.java.ftl";
         outputFilePath = outputBaseJavaPackagePath + "/cli/command/ListCommand.java";
+        DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
+        // cli.command.JsonGenerateCommand
+        inputFilePath = inputResourcePath + File.separator + "templates/java/cli/command/JsonGenerateCommand.java.ftl";
+        outputFilePath = outputBaseJavaPackagePath + "/cli/command/JsonGenerateCommand.java";
         DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
 
         // cli.CommandExecutor
@@ -100,6 +132,8 @@ public abstract class GenerateTemplate {
         inputFilePath = inputResourcePath + File.separator + "templates/README.md.ftl";
         outputFilePath = outputPath + File.separator + "README.md";
         DynamicFileGenerator.doGenerate(inputFilePath , outputFilePath, meta);
+
+
     }
 
     /**
@@ -120,6 +154,7 @@ public abstract class GenerateTemplate {
         FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
         // 拷贝脚本文件
         FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath+".bat", distOutputPath, true);
         // 拷贝源模板文件
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
         return distOutputPath;
