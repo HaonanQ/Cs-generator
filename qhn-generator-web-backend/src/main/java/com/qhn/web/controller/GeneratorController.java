@@ -293,7 +293,9 @@ public class GeneratorController {
 
         COSObjectInputStream cosObjectInput = null;
         try {
-            COSObject cosObject = cosManager.getObject(filepath);
+            String[] keypath = filepath.split("/");
+            String fk="/"+keypath[3]+"/"+keypath[4]+"/"+keypath[5];
+            COSObject cosObject = cosManager.getObject(fk);
             cosObjectInput = cosObject.getObjectContent();
             // 处理下载到的流
             byte[] bytes = IOUtils.toByteArray(cosObjectInput);
